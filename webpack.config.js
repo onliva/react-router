@@ -1,25 +1,46 @@
+const webpack = require("webpack");
+const path = require("path");
+const resolvePaths = (...args) => {
+  return path.resolve(__dirname, ...args);
+};
+
 module.exports = {
-  entry: './app/app.js',
+  mode: "development",
+  // mode: 'production',
+  entry: "./app/app.jsx",
   output: {
-    path: __dirname,
-    filename: './public/bundle.js'
+    path: __dirname + "/public",
+    filename: "bundle.js"
+  },
+  // watch: true,
+  module: {
+    rules: [{
+      test: /\.(js|jsx)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: "babel-loader?cacheDirectory=true",
+        // loader: "babel-loader",
+        options: {
+          presets: ["react", "es2015", "stage-0"]
+        }
+      }
+    }]
   },
   resolve: {
-    root: __dirname,
+    // root: __dirname,
     alias: {
-      HomePage: 'app/components/HomePage.js'
-    }
+      HomePage: resolvePaths("./app/components/HomePage"),
+    },
+    extensions: [".js", ".jsx"]
   },
-  module: {
-    loaders: [
-      {
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react', 'stage-0']
-        },
-        test: /\.jsx?$/,
-        exclude: /node_modules/
-      }
-    ]
-  }
+  plugins: [
+    new webpack.ProvidePlugin({
+      React: "react"
+    })
+  ]
+  // devServer: {
+  //     contentBase: path.join(__dirname, 'dist'),
+  //     compress: true,
+  //     port: 9000
+  // }
 };
