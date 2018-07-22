@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 class Transaction extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        // console.log(this.props.user);
+        
     }
     render() {
         return (
@@ -15,5 +16,5 @@ class Transaction extends React.Component {
 }
 
 export default connect(function(state) {
-    return { username: state.username };
+    return { user: state.user };
 })(Transaction);

@@ -3,9 +3,17 @@ import Login from "./Login";
 class Account extends React.Component {
     constructor(props) {
         super(props);
+        // console.log(this.props);
+        
+    }
+    logout(){
+        let {dispatch} = this.props;
+        dispatch({
+            type: "LOGOUT",
+        })
     }
     render() {
-        if (this.props.username === null) {
+        if (this.props.user.username === null) {
             return (
                 <fieldset>
                     <legend>Account</legend>
@@ -16,7 +24,8 @@ class Account extends React.Component {
             return (
                 <fieldset>
                     <legend>Account</legend>
-                    <p>your username is : {this.props.username}</p>
+                    <p>your username is : {this.props.user.username}</p>
+                    <button onClick={this.logout.bind(this)}>log out</button>
                 </fieldset>
             );
         }
@@ -24,5 +33,5 @@ class Account extends React.Component {
 }
 
 export default connect(function(state) {
-    return { username: state.username };
+    return { user: state.user };
 })(Account);

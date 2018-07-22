@@ -13,28 +13,22 @@ import Transaction from "./components/Transaction";
 
 import { combineReducers, createStore } from "redux";
 import { Provider } from "react-redux";
-const username = (state = null, action) => {
+const user = (state = { username: null}, action) => {
     switch (action.type) {
         case "LOGIN":
-            return action.username;
+            return { username: action.username,};
         case "LOGOUT":
-            return null;
+            return { username: null };
         default:
             return state;
     }
 };
-const reducer = combineReducers({ username });
+const reducer = combineReducers({ user });
 const store = createStore(reducer);
-store.subscribe(function(){
+store.subscribe(function() {
     console.log(store.getState());
-    
-})
+});
 class App extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {};
-    // }
-
     render() {
         return (
             <Provider store={store}>
@@ -48,7 +42,7 @@ class App extends React.Component {
                         <Route
                             path="/transaction"
                             render={() => {
-                                return store.getState().username === null ? (
+                                return store.getState().user.username === null ? (
                                     <Redirect to="/login" />
                                 ) : (
                                     <Transaction />

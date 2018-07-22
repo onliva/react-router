@@ -1,8 +1,10 @@
 import Nav from "./Nav";
+import { connect } from "react-redux";
+const axios = require("axios");
+
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
     }
     render() {
         return (
@@ -13,7 +15,20 @@ class Main extends React.Component {
             </fieldset>
         );
     }
-    1;
+    componentDidMount() {
+        var { dispatch } = this.props;
+        axios
+            .get("/getinfo")
+            .then(res => {
+                if (res.data) {
+                    dispatch({
+                        type: "LOGIN",
+                        username: res.data
+                    });
+                }
+            })
+            .catch(err => console.log("error"));
+    }
 }
 
-export default Main;
+export default connect()(Main);
